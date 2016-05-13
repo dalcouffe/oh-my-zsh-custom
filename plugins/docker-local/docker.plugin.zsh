@@ -4,8 +4,6 @@ alias docker_run='docker run ${DOCKER_DNS_FLAGS} --rm --privileged -it'
 alias docker_exec='docker exec -it'
 alias docker_logs='docker logs'
 
-alias bld_dns="export DOCKER_DNS_FLAGS='--dns=10.32.0.13 --dns=10.32.0.9 --dns-search=f4tech.com'"
-
 dhost() {
     if [ -z "$1" ]; then
         echo $DOCKER_HOST
