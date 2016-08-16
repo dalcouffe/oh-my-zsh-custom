@@ -34,7 +34,7 @@ java_dev() {
     extra_args="-v ${HOME}/.gradle:${docker_user_home}/.gradle \
        -v ${HOME}/.java:${docker_user_home}/.java \
        -v ${HOME}/.idea:${docker_user_home}/.IdeaIC2016.2 \
-       -p 8080:5050 \
+       -p 5050:5050 \
        -e DISPLAY=$(myip):0"
 
     docker_dev java $extra_args
