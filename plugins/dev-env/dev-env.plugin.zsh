@@ -9,6 +9,7 @@ docker_dev() {
     eval "docker_run \
         -v ${HOME}/code:${docker_user_home}/code \
         -v ${HOME}/docker/emacs.cache:${docker_user_home}/.emacs.d/.cache \
+        -v ${HOME}/docker/.zsh_history:${docker_user_home}/.zsh_history \
         -v ${HOME}/.ssh/id_rsa:${docker_user_home}/.ssh/id_rsa \
         -v ${HOME}/.ssh/config:${docker_user_home}/.ssh/config \
         -v /var/run/docker.sock:/var/run/docker.sock \
