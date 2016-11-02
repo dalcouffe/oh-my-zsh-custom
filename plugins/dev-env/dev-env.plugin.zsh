@@ -47,7 +47,7 @@ java_dev() {
 tmux_local() {
     tmux has-session -t local
     if [ $? != 0 ];then
-        tmux new-session -s local -n mac-dev -d
+        tmux new-session -s local -n 'cba-deploy' -d
         tmux send-keys -t local:1 'cd ~/code/cba-deploy' C-m
         tmux new-window -d
         tmux new-window -d -n 'jump hosts'
