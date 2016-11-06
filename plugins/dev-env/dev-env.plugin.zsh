@@ -16,6 +16,7 @@ docker_dev() {
         -e GITHUB_USER=${GITHUB_USER} \
         -e GITHUB_EMAIL=${GITHUB_EMAIL} \
         -e SKIP_PULL=${SKIP_PULL} \
+        --add-host dockerhost:203.0.113.0 \
         -h dev \
         ${extra_args} \
         ${image}"
