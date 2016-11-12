@@ -25,7 +25,21 @@ docker_dev() {
 sm() docker_dev spacemacs
 
 golang() {
-    docker_dev golang '-p 8080:8080'
+    declare extra_args
+
+    if [[ -n "${EMACS_GUI}" ]]; then
+        extra_args="-e DISPLAY=$(myip):0"
+        open -a XQuartz
+        socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\" &
+        sleep 2s
+    fi
+
+    docker_dev golang ${extra_args}
+
+    if [[ -n "${EMACS_GUI}" ]]; then
+        pkill -i xquartz
+        pkill socat
+    fi
 }
 
 java_dev() {
