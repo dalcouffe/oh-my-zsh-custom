@@ -66,17 +66,28 @@ tmux_local() {
         tmux send-keys -t local:1 'cd ~/code/cba-deploy' C-m
         tmux new-window -d
         tmux new-window -d -n 'jump hosts'
-        tmux split-window -v -p 33 -t local:3
-        tmux split-window -v -t local:3.1
-        tmux split-window -h -t local:3.1
-        tmux split-window -h -t local:3.2
-        tmux split-window -h -t local:3.3
-        tmux send-keys -t local:3.1 'adminpdxeng'
-        tmux send-keys -t local:3.3 'adminatlnprd'
-        tmux send-keys -t local:3.6 'adminpdxnprd'
-        tmux send-keys -t local:3.2 'adminpdxprod'
-        tmux send-keys -t local:3.5 'adminashprod'
-        tmux select-pane -t local:3.1
+        tmux split-window -h -t local:3
+        tmux split-window -h -t local:3
+        tmux split-window -h -t local:3
+        tmux split-window -h -t local:3
+        tmux split-window -h -t local:3
+        tmux split-window -h -t local:3
+        tmux select-layout tiled
+        tmux split-window -h -t local:3.7
+        tmux split-window -h -t local:3.7
+        tmux split-window -h -t local:3.7
+        tmux select-layout tiled
+        tmux send-keys -t local:3.1 'adminatlnprd'
+        tmux send-keys -t local:3.2 'adminpdxnprd'
+        tmux send-keys -t local:3.3 'admindubnprd'
+        tmux send-keys -t local:3.4 'adminashprod'
+        tmux send-keys -t local:3.5 'adminpdxprod'
+        tmux send-keys -t local:3.6 'admindubprod'
+        tmux send-keys -t local:3.7 'adminamsdr'
+        tmux send-keys -t local:3.8 'adminashdr'
+        tmux send-keys -t local:3.9 'adminatldr'
+        tmux send-keys -t local:3.10 'adminpdxeng'
+        tmux select-pane -t local:3.10
         tmux select-window -t local:1
     fi
     tmux attach -t local
