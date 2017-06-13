@@ -12,11 +12,14 @@ docker_dev() {
         -v ${HOME}/docker/.zsh_history:${docker_user_home}/.zsh_history \
         -v ${HOME}/.ssh/id_rsa:${docker_user_home}/.ssh/id_rsa \
         -v ${HOME}/.ssh/config:${docker_user_home}/.ssh/config \
+        -v ${HOME}/.ssh/tmp:${docker_user_home}/.ssh/tmp \
+        -v ${HOME}/.docker:${docker_user_home}/.docker \
         -v /var/run/docker.sock:/var/run/docker.sock \
         -e GITHUB_USER=${GITHUB_USER} \
         -e GITHUB_EMAIL=${GITHUB_EMAIL} \
         -e SKIP_PULL=${SKIP_PULL} \
         --add-host dockerhost:203.0.113.0 \
+        --network dev \
         -h dev \
         ${extra_args} \
         ${image}"
@@ -49,7 +52,7 @@ java_dev() {
 
     extra_args="-v ${HOME}/.gradle:${docker_user_home}/.gradle \
        -v ${HOME}/.java:${docker_user_home}/.java \
-       -v ${HOME}/.idea:${docker_user_home}/.IdeaIC2016.2 \
+       -v ${HOME}/.idea:${docker_user_home}/.IdeaIC2016.3 \
        -p 5050:5050 \
        -e DISPLAY=$(myip):0"
 
@@ -59,36 +62,3 @@ java_dev() {
     pkill socat
 }
 
-tmux_local() {
-    tmux has-session -t local
-    if [ $? != 0 ];then
-        tmux new-session -s local -n 'cba-deploy' -d
-        tmux send-keys -t local:1 'cd ~/code/cba-deploy' C-m
-        tmux new-window -d
-        tmux new-window -d -n 'jump hosts'
-        tmux split-window -h -t local:3
-        tmux split-window -h -t local:3
-        tmux split-window -h -t local:3
-        tmux split-window -h -t local:3
-        tmux split-window -h -t local:3
-        tmux split-window -h -t local:3
-        tmux select-layout tiled
-        tmux split-window -h -t local:3.7
-        tmux split-window -h -t local:3.7
-        tmux split-window -h -t local:3.7
-        tmux select-layout tiled
-        tmux send-keys -t local:3.1 'adminatlnprd'
-        tmux send-keys -t local:3.2 'adminpdxnprd'
-        tmux send-keys -t local:3.3 'admindubnprd'
-        tmux send-keys -t local:3.4 'adminashprod'
-        tmux send-keys -t local:3.5 'adminpdxprod'
-        tmux send-keys -t local:3.6 'admindubprod'
-        tmux send-keys -t local:3.7 'adminamsdr'
-        tmux send-keys -t local:3.8 'adminashdr'
-        tmux send-keys -t local:3.9 'adminatldr'
-        tmux send-keys -t local:3.10 'adminpdxeng'
-        tmux select-pane -t local:3.10
-        tmux select-window -t local:1
-    fi
-    tmux attach -t local
-}
