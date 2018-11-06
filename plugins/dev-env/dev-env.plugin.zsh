@@ -28,6 +28,7 @@ docker_dev() {
 sm() docker_dev spacemacs
 
 golang() {
+    docker_user_home=/home/docker.dev
     declare extra_args
 
     if [[ -n "${EMACS_GUI}" ]]; then
@@ -37,7 +38,10 @@ golang() {
         sleep 2s
     fi
 
-    docker_dev golang ${extra_args}
+    extra_args="-v ${HOME}/.minikube:${docker_user_home}/.minikube \
+       -v ${HOME}/.kube:${docker_user_home}/.kube"
+
+    docker_dev golang:next ${extra_args}
 
     if [[ -n "${EMACS_GUI}" ]]; then
         pkill -i xquartz
