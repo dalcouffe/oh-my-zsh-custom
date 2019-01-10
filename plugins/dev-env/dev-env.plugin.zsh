@@ -41,7 +41,7 @@ golang() {
     extra_args="-v ${HOME}/.minikube:${docker_user_home}/.minikube \
        -v ${HOME}/.kube:${docker_user_home}/.kube"
 
-    docker_dev golang:next ${extra_args}
+    docker_dev golang ${extra_args}
 
     if [[ -n "${EMACS_GUI}" ]]; then
         pkill -i xquartz
@@ -64,5 +64,14 @@ java_dev() {
 
     pkill -i xquartz
     pkill socat
+}
+
+jf() {
+    docker container run --rm \
+           -v ${HOME}/docker/jfrog:/root/.jfrog \
+           -v $(pwd):/tmp/af \
+           -w /tmp/af \
+           -e JFROG_CLI_LOG_LEVEL=DEBUG \
+           docker.bintray.io/jfrog/jfrog-cli-go jfrog rt $@
 }
 
