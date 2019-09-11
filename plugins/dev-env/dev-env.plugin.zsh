@@ -8,12 +8,15 @@ docker_dev() {
 
     eval "docker_run \
         -v ${HOME}/code:${docker_user_home}/code \
+        -v ${HOME}/code/dotfiles/emacs/.spacemacs:${docker_user_home}/.spacemacs \
         -v ${HOME}/docker/emacs.cache:${docker_user_home}/.emacs.d/.cache \
         -v ${HOME}/docker/.zsh_history:${docker_user_home}/.zsh_history \
         -v ${HOME}/.ssh/id_rsa:${docker_user_home}/.ssh/id_rsa \
         -v ${HOME}/.ssh/config:${docker_user_home}/.ssh/config \
         -v ${HOME}/.ssh/tmp:${docker_user_home}/.ssh/tmp \
         -v ${HOME}/.docker:${docker_user_home}/.docker \
+        -v ${HOME}/.mopctl:/config \
+        -v /var/run/docker.sock:/var/run/docker.sock \
         -v /var/run/docker.sock:/var/run/docker.sock \
         -e GITHUB_USER=${GITHUB_USER} \
         -e GITHUB_EMAIL=${GITHUB_EMAIL} \
@@ -73,5 +76,15 @@ jf() {
            -w /tmp/af \
            -e JFROG_CLI_LOG_LEVEL=DEBUG \
            docker.bintray.io/jfrog/jfrog-cli-go jfrog rt $@
+}
+
+vault() {
+    docker container run --rm \
+           -it \
+           --cap-add=IPC_LOCK \
+           -v ${HOME}/docker/vault/.token:/home/vault/.vault-token:rw \
+           -e VAULT_ADDR=${VAULT_ADDRESS} \
+           -e VAULT_NAMESPACE=${VAULT_NAMESPACE} \
+           vault $@
 }
 
