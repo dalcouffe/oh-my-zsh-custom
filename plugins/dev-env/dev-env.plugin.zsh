@@ -8,7 +8,6 @@ docker_dev() {
 
     eval "docker_run \
         -v ${HOME}/code:${docker_user_home}/code \
-        -v ${HOME}/code/dotfiles/emacs/.spacemacs:${docker_user_home}/.spacemacs \
         -v ${HOME}/docker/emacs.cache:${docker_user_home}/.emacs.d/.cache \
         -v ${HOME}/docker/.zsh_history:${docker_user_home}/.zsh_history \
         -v ${HOME}/.ssh/id_rsa:${docker_user_home}/.ssh/id_rsa \
@@ -17,11 +16,9 @@ docker_dev() {
         -v ${HOME}/.docker:${docker_user_home}/.docker \
         -v ${HOME}/.mopctl:/config \
         -v /var/run/docker.sock:/var/run/docker.sock \
-        -v /var/run/docker.sock:/var/run/docker.sock \
         -e GITHUB_USER=${GITHUB_USER} \
         -e GITHUB_EMAIL=${GITHUB_EMAIL} \
         -e SKIP_PULL=${SKIP_PULL} \
-        --add-host dockerhost:203.0.113.0 \
         --network dev \
         -h dev \
         ${extra_args} \
