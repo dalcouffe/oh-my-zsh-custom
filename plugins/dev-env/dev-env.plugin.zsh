@@ -7,15 +7,15 @@ docker_dev() {
     extra_args=${2}
 
     eval "docker_run \
-        -v ${HOME}/code:${docker_user_home}/code \
-        -v ${HOME}/docker/emacs.cache:${docker_user_home}/.emacs.d/.cache \
-        -v ${HOME}/docker/.zsh_history:${docker_user_home}/.zsh_history \
-        -v ${HOME}/.ssh/id_rsa:${docker_user_home}/.ssh/id_rsa \
-        -v ${HOME}/.ssh/config:${docker_user_home}/.ssh/config \
-        -v ${HOME}/.ssh/tmp:${docker_user_home}/.ssh/tmp \
-        -v ${HOME}/.docker:${docker_user_home}/.docker \
-        -v ${HOME}/.mopctl:/config \
-        -v /var/run/docker.sock:/var/run/docker.sock \
+        --mount type=volume,source=code-sync,destination=${docker_user_home}/code \
+        --mount type=volume,source=emacs-cache-sync,destination=${docker_user_home}/.emacs.d/.cache \
+        --mount type=volume,source=zsh-history-sync,destination=${docker_user_home}/.zsh_history \
+        --mount type=bind,consistency=cached,source=${HOME}/.ssh/id_rsa,destination=${docker_user_home}/.ssh/id_rsa \
+        --mount type=bind,consistency=cached,source=${HOME}/.ssh/config,destination=${docker_user_home}/.ssh/config \
+        --mount type=bind,consistency=cached,source=${HOME}/.ssh/tmp,destination=${docker_user_home}/.ssh/tmp \
+        --mount type=bind,consistency=cached,source=${HOME}/.docker,destination=${docker_user_home}/.docker \
+        --mount type=bind,consistency=cached,source=${HOME}/.mopctl,destination=/config \
+        --mount type=bind,consistency=cached,source=/var/run/docker.sock,destination=/var/run/docker.sock \
         -e GITHUB_USER=${GITHUB_USER} \
         -e GITHUB_EMAIL=${GITHUB_EMAIL} \
         -e SKIP_PULL=${SKIP_PULL} \
@@ -38,8 +38,8 @@ golang() {
         sleep 2s
     fi
 
-    extra_args="-v ${HOME}/.minikube:${docker_user_home}/.minikube \
-       -v ${HOME}/.kube:${docker_user_home}/.kube"
+    # extra_args="-v ${HOME}/.minikube:${docker_user_home}/.minikube \
+    #    -v ${HOME}/.kube:${docker_user_home}/.kube"
 
     docker_dev golang ${extra_args}
 
