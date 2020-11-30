@@ -9,7 +9,7 @@ docker_dev() {
     eval "docker_run \
         --mount type=volume,source=code-sync,destination=${docker_user_home}/code \
         --mount type=volume,source=emacs-cache-sync,destination=${docker_user_home}/.emacs.d/.cache \
-        --mount type=volume,source=zsh-history-sync,destination=${docker_user_home}/.zsh_history \
+        --mount type=bind,consistency=cached,source=${HOME}/docker/zsh_history,destination=${docker_user_home}/.zsh_history \
         --mount type=bind,consistency=cached,source=${HOME}/.ssh/id_rsa,destination=${docker_user_home}/.ssh/id_rsa \
         --mount type=bind,consistency=cached,source=${HOME}/.ssh/config,destination=${docker_user_home}/.ssh/config \
         --mount type=bind,consistency=cached,source=${HOME}/.ssh/tmp,destination=${docker_user_home}/.ssh/tmp \
