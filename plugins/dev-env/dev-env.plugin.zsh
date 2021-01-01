@@ -7,8 +7,8 @@ docker_dev() {
     extra_args=${2}
 
     eval "docker_run \
-        --mount type=volume,source=code-sync,destination=${docker_user_home}/code \
-        --mount type=volume,source=emacs-cache-sync,destination=${docker_user_home}/.emacs.d/.cache \
+        --mount type=bind,consistency=delegated,source=${HOME}/code,destination=${docker_user_home}/code \
+        --mount type=bind,consistency=delegated,source=${HOME}/docker/emacs.cache,destination=${docker_user_home}/.emacs.d/.cache \
         --mount type=bind,consistency=cached,source=${HOME}/docker/zsh_history,destination=${docker_user_home}/.zsh_history \
         --mount type=bind,consistency=cached,source=${HOME}/.ssh/id_rsa,destination=${docker_user_home}/.ssh/id_rsa \
         --mount type=bind,consistency=cached,source=${HOME}/.ssh/config,destination=${docker_user_home}/.ssh/config \
@@ -24,6 +24,13 @@ docker_dev() {
         ${extra_args} \
         ${image}"
 }
+# --mount type=volume,source=code-sync,destination=${docker_user_home}/code
+# --mount type=volume,source=emacs-cache-sync,destination=${docker_user_home}/.emacs.d/.cache
+# --mount type=volume,source=zsh-history-sync,destination=${docker_user_home}/.zsh_history
+
+# --mount type=bind,consistency=cached,source=${HOME}/code,destination=${docker_user_home}/code \
+# --mount type=bind,consistency=cached,source=${HOME}/docker/emacs.cache,destination=${docker_user_home}/.emacs.d/.cache \
+# --mount 'type=volume,source=nfsmount,destination=${docker_user_home}/code,volume-driver=local,volume-opt=type=nfs,volume-opt=device=:${HOME}/code,\"volume-opt=o=addr=host.docker.internal,nolock,rw,hard,nointr,nfsvers=3\"' \
 
 sm() docker_dev spacemacs
 

@@ -1,0 +1,70 @@
+---
+version: "3.7"
+
+volumes:
+  code:
+
+networks:
+  dev:
+
+services:
+  golang:
+    image: daspoonman/golang:latest
+    hostname: dev
+    privileged: true
+    entrypoint:
+      - sleep
+      - infinity
+    networks:
+      - dev
+    volumes:
+      - type: volume
+        source: code
+        target: /home/docker.dev/code
+      - type: bind
+        source: ${HOME}/docker/emacs.cache
+        target: /home/docker.dev/.emacs.d/.cache
+      - type: bind
+        source: ${HOME}/.ssh/id_rsa
+        target: /home/docker.dev/.ssh/id_rsa
+      - type: bind
+        source: ${HOME}/.ssh/config
+        target: /home/docker.dev/.ssh/config
+      - type: bind
+        source: ${HOME}/.ssh/tmp
+        target: /home/docker.dev/.ssh/tmp
+      - type: bind
+        source: ${HOME}/.docker
+        target: /home/docker.dev/.docker
+      - type: bind
+        source: ${HOME}/.mopctl
+        target: /config
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+
+x-mutagen:
+  sync:
+    defaults:
+      ignore:
+        vcs: false
+    code:
+      alpha: "${HOME}/code"
+      beta: "volume://code"
+      mode: "two-way-resolved"
+      configurationBeta:
+        permissions:
+          defaultOwner: "id:1000"
+          defaultGroup: "id:1000"
+      # ignore:
+      #   paths:
+      #     - "/*"
+      #     - "!/api/"
+      #     - "/api/*"
+      #     - "!/api/{entrypoint.sh,go.mod,go.sum,server.go}"
+      #     - "!/frontend/"
+      #     - "/frontend/*"
+      #     - "!/frontend/{entrypoint.sh,gulpfile.js,index.html,package*.json}"
+      #     - "!/web/"
+      #     - "/web/*"
+      #     - "!/web/{entrypoint.sh,go.mod,go.sum,server.go}"
