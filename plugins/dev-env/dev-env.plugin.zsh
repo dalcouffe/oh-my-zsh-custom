@@ -35,6 +35,12 @@ docker_dev() {
 sm() docker_dev spacemacs
 
 golang() {
+    mutagen compose --file=${HOME}/code/oh-my-zsh-custom/plugins/dev-env/golang.yml up -d
+    mutagen compose --file=${HOME}/code/oh-my-zsh-custom/plugins/dev-env/golang.yml exec golang start_spacemacs_session
+    mutagen compose --file=${HOME}/code/oh-my-zsh-custom/plugins/dev-env/golang.yml down
+}
+
+golang_old() {
     docker_user_home=/home/docker.dev
     declare extra_args
 

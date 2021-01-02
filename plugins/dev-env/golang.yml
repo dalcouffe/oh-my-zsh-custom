@@ -12,6 +12,9 @@ services:
     image: daspoonman/golang:latest
     hostname: dev
     privileged: true
+    environment:
+      GITHUB_USER:
+      GITHUB_EMAIL:
     entrypoint:
       - sleep
       - infinity
